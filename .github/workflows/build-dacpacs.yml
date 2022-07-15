@@ -1,0 +1,20 @@
+name: Build DacPacs
+on:
+  workflow_dispatch:
+  # no content, allows manual triggering
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Build task
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Task
+        uses: arduino/setup-task@v1
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: '6.0.x'
+          include-prerelease: true
+      - name: build all sqlprojects
+        run: task build-all

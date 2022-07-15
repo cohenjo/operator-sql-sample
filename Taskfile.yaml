@@ -1,0 +1,101 @@
+# https://taskfile.dev
+
+version: '3'
+
+vars:
+  GREETING: Hello, World!
+  BUILD_DIR_PATH: $HOME/.vscode/extensions/ms-mssql.sql-database-projects-vscode-0.17.2/BuildDirectory
+
+tasks:
+  default:
+    cmds:
+      - echo "{{.GREETING}}"
+    silent: true
+
+  build-all:
+    cmds:
+      - task: build-test-v1
+      - task: build-test-v2
+      - task: build-test-err
+
+  clean-all:
+    cmds:
+      - task: clean-test-v1
+      - task: clean-test-v2
+      - task: clean-test-err
+
+  build:
+    cmds:
+      - dotnet build -o ./bin --configuration Release "./{{.PROJECT}}/{{.PROJECT}}.sqlproj" /p:NetCoreBuild=true
+
+  build-test-v1:
+    cmds:
+      - task: build
+        vars: { PROJECT: operator-test-v1 }
+
+  build-test-v2:
+    cmds:
+      - task: build
+        vars: { PROJECT: operator-test-v2 }
+
+  build-test-err:
+    cmds:
+      - task: build
+        vars: { PROJECT: operator-test-err }
+
+  clean:
+    cmds:
+      - dotnet clean --configuration Release "./{{.PROJECT}}/{{.PROJECT}}.sqlproj" /p:NetCoreBuild=true
+
+  clean-test-v1:
+    cmds:
+      - task: clean
+        vars: { PROJECT: operator-test-v1 }
+
+  clean-test-v2:
+    cmds:
+      - task: clean
+        vars: { PROJECT: operator-test-v2 }
+
+  clean-test-err:
+    cmds:
+      - task: clean
+        vars: { PROJECT: operator-test-err }
+
+  old-build:
+    cmds:
+      - dotnet build -o ./bin --configuration Release "./{{.PROJECT}}/{{.PROJECT}}.sqlproj" /p:NetCoreBuild=true /p:NETCoreTargetsPath={{.BUILD_DIR_PATH}}
+
+  old-clean:
+    cmds:
+      - dotnet clean --configuration Release "./{{.PROJECT}}/{{.PROJECT}}.sqlproj" /p:NetCoreBuild=true /p:NETCoreTargetsPath={{.BUILD_DIR_PATH}}
+
+  build-olds:
+    cmds:
+      - task: build-operator-common
+      - task: build-operator-simple-tenant
+      - task: build-operator-tenant
+
+  clean-olds:
+    cmds:
+      - task: old-clean
+        vars: { PROJECT: operator-common }
+      - task: old-clean
+        vars: { PROJECT: operator-simple-tenant }
+      - task: old-clean
+        vars: { PROJECT: operator-tenant }
+
+  build-operator-common:
+    cmds:
+      - task: old-build
+        vars: { PROJECT: operator-common }
+
+  build-operator-simple-tenant:
+    cmds:
+      - task: old-build
+        vars: { PROJECT: operator-simple-tenant }
+
+  build-operator-tenant:
+    cmds:
+      - task: old-build
+        vars: { PROJECT: operator-tenant }
