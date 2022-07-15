@@ -2,6 +2,9 @@ name: Build DacPacs
 on:
   workflow_dispatch:
   # no content, allows manual triggering
+  push:
+    tags:
+      - v*
 
 jobs:
   build:
@@ -20,7 +23,7 @@ jobs:
         run: task build-all
       - name: Release
         uses: softprops/action-gh-release@v1
-        # if: startsWith(github.ref, 'refs/tags/')
+        if: startsWith(github.ref, 'refs/tags/')
         with:
           body: dacpacs used for testing
           files: bin/operator-test-*.dacpac
