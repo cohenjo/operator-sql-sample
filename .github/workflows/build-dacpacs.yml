@@ -18,3 +18,9 @@ jobs:
           include-prerelease: true
       - name: build all sqlprojects
         run: task build-all
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        # if: startsWith(github.ref, 'refs/tags/')
+        with:
+          body: dacpacs used for testing
+          files: bin/operator-test-*.dacpac

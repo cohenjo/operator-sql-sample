@@ -1,9 +1,11 @@
 # Operator-SQL-Sample
 
-This repo show usage of .sqlproj projects to create sample dacpacs for the [Azure-Schema-Operator](https://microsoft.github.io/azure-schema-operator/).
+[![Build DacPacs](https://github.com/cohenjo/operator-sql-sample/actions/workflows/build-dacpacs.yml/badge.svg?branch=master)](https://github.com/cohenjo/operator-sql-sample/actions/workflows/build-dacpacs.yml)
+
+This repo show usage of .sqlproj projects to create sample dacpacs for the [Azure-Schema-Operator](https://microsoft.github.io/azure-schema-operator/).  
 The project uses the [SQL: Database Projects extension](https://docs.microsoft.com/en-us/sql/azure-data-studio/extensions/sql-database-project-extension?view=sql-server-ver15)
 
-The `operator-test-*` projects refer to tests of the rollback flow as described [here](./operator-tests.md)
+The `operator-test-*` projects refer to tests of the rollback flow as described [here](./operator-tests.md)  
 The other projects are described below.
 
 This repo will generate 3 dacpacs:
@@ -13,14 +15,17 @@ This repo will generate 3 dacpacs:
 1. tenant dacpac - containing objects we wish to create per tenant, with dependancy on the common dacpac
 
 Two more features shown here:
-The tenant dacpac will reference the common dacpac.
-The common dacpac has "post"-script.
+
+- The tenant dacpac will reference the common dacpac.
+- The common dacpac has "post"-script.
 
 To build any of the projects run:
 
 ```shell
 PROJECT=<project name> task old-build
 ```
+
+For example:
 
 ```shell
 PROJECT=operator-tenant task old-build
@@ -80,6 +85,8 @@ EOF
 ```
 
 ## Simple Tenant
+
+This example will deploy the `operator-simple-tenant` schema on all schemas matching the filter: `db52`.
 
 ```bash
 kubectl create configmap operator-simple-tenant --from-literal templateName="MasterSchema" \

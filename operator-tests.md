@@ -42,7 +42,7 @@ Creating the ConfigMap:
 kubectl create configmap dacpac-test-schema --from-file=dacpac=bin/operator-test-v1.dacpac
 ```
 
-next we need to define a `SchemaDeployment` object that will reference the `ConfigMap`.
+next we need to define a `SchemaDeployment` object that will reference the `ConfigMap`.  
 Note: as we want to run the dacpac on the DB as is - we *must* not specify a schema!
 
 ```yaml
