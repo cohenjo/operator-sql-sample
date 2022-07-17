@@ -1,6 +1,6 @@
 # Operator-SQL-Sample
 
-[![Build DacPacs](https://github.com/cohenjo/operator-sql-sample/actions/workflows/build-dacpacs.yml/badge.svg?branch=master)](https://github.com/cohenjo/operator-sql-sample/actions/workflows/build-dacpacs.yml)
+[![Build DacPacs](https://github.com/cohenjo/operator-sql-sample/actions/workflows/build-dacpacs.yml/badge.svg)](https://github.com/cohenjo/operator-sql-sample/actions/workflows/build-dacpacs.yml)
 
 This repo show usage of .sqlproj projects to create sample dacpacs for the [Azure-Schema-Operator](https://microsoft.github.io/azure-schema-operator/).  
 The project uses the [SQL: Database Projects extension](https://docs.microsoft.com/en-us/sql/azure-data-studio/extensions/sql-database-project-extension?view=sql-server-ver15)
