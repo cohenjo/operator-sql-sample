@@ -63,3 +63,9 @@ spec:
     namespace: default
 EOF
 ```
+
+To upgrade the schema to the new version
+
+```shell
+kubectl create configmap dacpac-test-schema --save-config --from-file=dacpac=bin/operator-test-v2.dacpac --dry-run=client -o yaml | kubectl apply -f -
+```
