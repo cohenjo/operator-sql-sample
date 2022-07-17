@@ -57,7 +57,7 @@ spec:
     clusterUris: ['schematest.database.windows.net']
     db: 'db2'
   failIfDataLoss: true
-  failurePolicy: abort
+  failurePolicy: rollback
   source:
     name: dacpac-test-schema
     namespace: default
@@ -69,3 +69,23 @@ To upgrade the schema to the new version
 ```shell
 kubectl create configmap dacpac-test-schema --save-config --from-file=dacpac=bin/operator-test-v2.dacpac --dry-run=client -o yaml | kubectl apply -f -
 ```
+
+Once the 2nd schema deployment is done, we will want to cause an error by running the 3rd DacPac:
+
+```shell
+kubectl create configmap dacpac-test-schema --save-config --from-file=dacpac=bin/operator-test-err.dacpac --dry-run=client -o yaml | kubectl apply -f -
+```
+
+We should see the operator rollback automatically to the last successful version, namely v2.  
+Following successful executio of the entire process we should see the deployment status be:
+
+```shell
+➜ kubectl schemaop history --name sql-test-deployment                    
+  NAMESPACE  NAME                   REVISION  SUCCEEDED  
+  default    sql-test-deployment-0  0         1          
+  default    sql-test-deployment-1  1         1          
+  default    sql-test-deployment-2  2         0          
+  default    sql-test-deployment-3  3         1          
+```
+
+Revision 2 was the failed revision (`err`) which was reverted to a new version (version 3 contains the data of `v2`).  
